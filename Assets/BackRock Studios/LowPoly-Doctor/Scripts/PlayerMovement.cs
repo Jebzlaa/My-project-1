@@ -3,6 +3,7 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     public CharacterController controller;
+    public Animator animator; 
     public float speed = 6f;
     public float gravity = -9.81f;
 
@@ -10,6 +11,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
+        // Pakai input standar yang dijamin jalan kalau settingannya "Both"
         float horizontal = Input.GetAxisRaw("Horizontal");
         float vertical = Input.GetAxisRaw("Vertical");
         
@@ -21,6 +23,18 @@ public class PlayerMovement : MonoBehaviour
 
             Quaternion targetRotation = Quaternion.LookRotation(direction);
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 10f);
+
+            if (animator != null)
+            {
+                animator.SetFloat("Speed", 1f); 
+            }
+        }
+        else
+        {
+            if (animator != null)
+            {
+                animator.SetFloat("Speed", 0f);
+            }
         }
 
         if (controller.isGrounded && velocity.y < 0)
